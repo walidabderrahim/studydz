@@ -1,0 +1,5 @@
+dzexams.db
+*.exe
+uploads/
+.vscode/
+.idea/

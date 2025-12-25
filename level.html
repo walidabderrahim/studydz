@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختر السنة الدراسية - StudyDz</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --white: #ffffff;
+            --text: #111827;
+            --text-light: #6b7280;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        /* Years Grid */
+        .years-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .year-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .year-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(124, 58, 237, 0.15);
+        }
+
+        .year-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--white);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .year-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .year-info {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .years-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="window.location.href='/'">
+                <div class="logo-icon">DZ</div>
+                <span>StudyDz</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/">الرئيسية</a>
+            <span class="breadcrumb-separator">←</span>
+            <span id="currentLevel">...</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <a href="/" class="back-btn">
+            ← العودة للرئيسية
+        </a>
+
+        <h1 class="page-title" id="pageTitle">اختر السنة الدراسية</h1>
+        <p class="page-subtitle">اختر السنة للوصول إلى المواد الدراسية</p>
+
+        <div id="yearsContainer" class="years-grid">
+            <div class="loading">جاري تحميل السنوات الدراسية...</div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const levelId = urlParams.get('level_id');
+        const levelName = urlParams.get('level_name');
+
+        // Update page title
+        if (levelName) {
+            document.getElementById('pageTitle').textContent = levelName;
+            document.getElementById('currentLevel').textContent = levelName;
+        }
+
+        // Load years
+        async function loadYears() {
+            if (!levelId) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/years?level_id=${levelId}`);
+                const years = await response.json();
+
+                const container = document.getElementById('yearsContainer');
+
+                if (years.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📚</div>
+                            <h3>لا توجد سنوات دراسية متاحة حاليا</h3>
+                            <p>سيتم إضافة المحتوى قريبا</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = '';
+
+                years.forEach((year, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'year-card';
+                    card.onclick = () => goToYear(year.id, year.name_ar);
+
+                    card.innerHTML = `
+                        <div class="year-icon">${index + 1}</div>
+                        <div class="year-name">${year.name_ar}</div>
+                        <div class="year-info">انقر للوصول إلى المواد</div>
+                    `;
+
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading years:', error);
+                document.getElementById('yearsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>خطأ في تحميل البيانات</h3>
+                        <p>يرجى المحاولة مرة أخرى</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Navigate to matiere page
+        function goToYear(yearId, yearName) {
+            window.location.href = `/matiere.html?year_id=${yearId}&year_name=${encodeURIComponent(yearName)}&level_name=${encodeURIComponent(levelName)}`;
+        }
+
+        // Load years on page load
+        window.addEventListener('DOMContentLoaded', loadYears);
+    </script>
+</body>
+</html>

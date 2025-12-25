@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyDz - موقع دزإجزامز للفروض والاختبارات الجزائري</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            position: relative;
+        }
+
+        /* Background Image */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-logo-badge {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 18px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(124, 58, 237, 0.2);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .sidebar-link:hover::before {
+            background: #7c3aed;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+        }
+
+        .sidebar-link.active::before {
+            background: white;
+        }
+
+        .sidebar-icon {
+            font-size: 18px;
+            margin-left: 12px;
+        }
+
+        .sidebar-count {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+                .sidebar-submenu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            margin-top: 5px;
+        }
+
+        .sidebar-submenu.active {
+            max-height: 1000px;
+        }
+
+        .sidebar-submenu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-year-link {
+            display: block;
+            padding: 10px 15px 10px 50px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .sidebar-year-link::before {
+            content: '◀';
+            position: absolute;
+            right: 30px;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-year-link:hover {
+            background: rgba(124, 58, 237, 0.15);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .sidebar-year-link:hover::before {
+            transform: translateX(-5px);
+        }
+
+        .sidebar-arrow {
+            transition: transform 0.3s;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .sidebar-arrow.rotated {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-level-link {
+            cursor: pointer;
+        }
+
+
+        .sidebar-link.primaire:hover { background: rgba(239, 68, 68, 0.2); }
+        .sidebar-link.moyen:hover { background: rgba(16, 185, 129, 0.2); }
+        .sidebar-link.lycee:hover { background: rgba(245, 158, 11, 0.2); }
+        .sidebar-link.universite:hover { background: rgba(6, 182, 212, 0.2); }
+        .sidebar-link.divers:hover { background: rgba(168, 85, 247, 0.2); }
+
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            left: 20px;
+            top: 80px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            font-size: 20px;
+        }
+
+        /* Main Content with sidebar offset */
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            padding: 12px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-badge {
+            background: white;
+            color: #7c3aed;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 0.8s;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #1f2937;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Levels Grid */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideUp 0.6s backwards;
+        }
+
+        .level-card:nth-child(1) { animation-delay: 0.1s; }
+        .level-card:nth-child(2) { animation-delay: 0.2s; }
+        .level-card:nth-child(3) { animation-delay: 0.3s; }
+        .level-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .level-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .level-header {
+            padding: 25px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s;
+        }
+
+        .level-card:hover .level-header::before {
+            left: 100%;
+        }
+
+        .level-primaire { 
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c92a2a 100%);
+            box-shadow: 0 5px 20px rgba(238, 90, 111, 0.4);
+        }
+
+        .level-moyen { 
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 50%, #2b8a3e 100%);
+            box-shadow: 0 5px 20px rgba(55, 178, 77, 0.4);
+        }
+
+        .level-lycee { 
+            background: linear-gradient(135deg, #ffd43b 0%, #fab005 50%, #f08c00 100%);
+            box-shadow: 0 5px 20px rgba(250, 176, 5, 0.4);
+        }
+
+        .level-universite { 
+            background: linear-gradient(135deg, #4dabf7 0%, #339af0 50%, #1c7ed6 100%);
+            box-shadow: 0 5px 20px rgba(51, 154, 240, 0.4);
+        }
+
+        .years-list {
+            padding: 25px;
+        }
+
+        .year-item {
+            padding: 14px 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .year-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .year-item:hover::before {
+            left: 100%;
+        }
+
+        .year-item:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            transform: translateX(-8px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Main Subjects */
+        .subjects-section {
+            margin-top: 60px;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+            animation: fadeIn 0.8s backwards;
+        }
+
+        .subject-card:nth-child(1) { animation-delay: 0.1s; }
+        .subject-card:nth-child(2) { animation-delay: 0.2s; }
+        .subject-card:nth-child(3) { animation-delay: 0.3s; }
+        .subject-card:nth-child(4) { animation-delay: 0.4s; }
+        .subject-card:nth-child(5) { animation-delay: 0.5s; }
+        .subject-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .subject-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+        }
+
+        .subject-icon {
+            font-size: 52px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .subject-card:hover .subject-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .subject-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            transition: color 0.3s;
+        }
+
+        .subject-card:hover .subject-name {
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 50px 20px 30px;
+            margin-top: 80px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #7c3aed, #ef4444, #10b981, #f59e0b);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0);
+            transition: transform 0.3s;
+            border-radius: 50%;
+        }
+
+        .social-link:hover::before {
+            transform: scale(1);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-tiktok { background: linear-gradient(135deg, #000000, #00f2ea); }
+        .social-instagram { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+        .social-facebook { background: #1877f2; }
+        .social-youtube { background: #ff0000; }
+        .social-twitter { background: #000000; }
+        .social-email { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 24px; }
+            .hero p { font-size: 14px; }
+            nav { display: none; }
+            .levels-grid { grid-template-columns: 1fr; }
+            .social-links { gap: 15px; }
+            .social-link { width: 45px; height: 45px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-text">
+                <span>StudyDz</span>
+                <span class="sidebar-logo-badge">DZ</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li class="sidebar-item">
+                <a href="/" class="sidebar-link active">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-home sidebar-icon"></i>
+                        <span>الصفحة الرئيسية</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <div class="header-top">
+                <div class="logo">
+                    <span>StudyDz</span>
+                    <span class="logo-badge">DZ</span>
+                </div>
+                <nav>
+                    <a href="/">الرئيسية</a>
+                    <a href="#">عن الموقع</a>
+                    <a href="#">اتصل بنا</a>
+                    <a href="/admin.html">لوحة التحكم</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>موقع StudyDz للفروض والاختبارات الجزائري</h1>
+            <h4>الموقع الأول لتحضير الفروض والاختبارات في الجزائر</h4><br>
+            <h5>لا تنسى الصلاة على النبي</h5>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <h2 class="section-title">اختر المستوى الدراسي</h2>
+
+            <div id="levelsContainer" class="levels-grid">
+                <div style="text-align: center; padding: 50px; color: #6b7280; grid-column: 1/-1;">
+                    جاري تحميل المستويات...
+                </div>
+            </div>
+
+            <!-- Main Subjects Section -->
+            <div class="subjects-section">
+                <h2 class="section-title">المواد الدراسية الرئيسية</h2>
+                <div class="subjects-grid">
+                    <div class="subject-card">
+                        <div class="subject-icon">📐</div>
+                        <div class="subject-name">الرياضيات</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon">🎨</div>
+                        <div class="subject-name">التربية الفنية</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon">🇬🇧</div>
+                        <div class="subject-name">اللغة الإنجليزية</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon">📐</div>
+                        <div class="subject-name">الهندسة</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon">💻</div>
+                        <div class="subject-name">الإعلام الآلي</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon">🇫🇷</div>
+                        <div class="subject-name">اللغة الفرنسية</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <!-- Social Media Links -->
+                <div class="social-links">
+                    <a href="https://www.tiktok.com/@study.dz2026?is_from_webapp=1&sender_device=pc" target="_blank" class="social-link social-tiktok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.instagram.com/studydzsam/" target="_blank" class="social-link social-instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61585412974968" target="_blank" class="social-link social-facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="http://www.youtube.com/@StudyDZ_2026" target="_blank" class="social-link social-youtube" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://x.com/StudyDZSam" target="_blank" class="social-link social-twitter" title="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="mailto:contact@study-dz.com" class="social-link social-email" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+
+                <div class="footer-links">
+                    <a href="/">الرئيسية</a>
+                    <a href="#">عن الموقع</a>
+                    <a href="#">من نحن</a>
+                    <a href="#">اتصل بنا</a>
+                    <a href="/admin.html">لوحة التحكم</a>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 StudyDz - جميع الحقوق محفوظة</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+           <script>
+        let allLevels = [];
+        let allYears = {};
+
+        async function loadData() {
+            try {
+                const levelsResponse = await fetch('http://localhost:8080/api/levels');
+                allLevels = await levelsResponse.json();
+
+                for (let level of allLevels) {
+                    const yearsResponse = await fetch(`http://localhost:8080/api/years?level_id=${level.id}`);
+                    allYears[level.id] = await yearsResponse.json();
+                }
+
+                displayLevels();
+                populateSidebar();
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('levelsContainer').innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: #ef4444; grid-column: 1/-1;">
+                        <h3>خطأ في تحميل البيانات</h3>
+                        <p>يرجى التحقق من تشغيل الخادم</p>
+                    </div>
+                `;
+            }
+        }
+
+        function populateSidebar() {
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            
+            allLevels.forEach(level => {
+                let levelClass = 'primaire';
+                let icon = '📚';
+                let yearCount = allYears[level.id] ? allYears[level.id].length : 0;
+                
+                if (level.name_ar.includes('المتوسط')) {
+                    levelClass = 'moyen';
+                    icon = '📖';
+                } else if (level.name_ar.includes('الثانوي')) {
+                    levelClass = 'lycee';
+                    icon = '🎓';
+                } else if (level.name_ar.includes('الجامعة')) {
+                    levelClass = 'universite';
+                    icon = '🏛️';
+                }
+
+                const li = document.createElement('li');
+                li.className = 'sidebar-item';
+                
+                // Create level link with arrow
+                const levelLink = document.createElement('a');
+                levelLink.className = `sidebar-link sidebar-level-link ${levelClass}`;
+                levelLink.onclick = (e) => {
+                    e.preventDefault();
+                    toggleYearsMenu(level.id);
+                };
+                levelLink.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <span class="sidebar-icon">${icon}</span>
+                        <span>${level.name_ar}</span>
+                    </div>
+                    <span class="sidebar-arrow" id="arrow-${level.id}">▼</span>
+                `;
+                
+                li.appendChild(levelLink);
+                
+                // Create submenu for years
+                const submenu = document.createElement('ul');
+                submenu.className = 'sidebar-submenu';
+                submenu.id = `submenu-${level.id}`;
+                
+                const years = allYears[level.id] || [];
+                years.forEach(year => {
+                    const yearLi = document.createElement('li');
+                    yearLi.innerHTML = `
+                        <a href="/matiere.html?year_id=${year.id}&year_name=${encodeURIComponent(year.name_ar)}&level_name=${encodeURIComponent(year.level_name)}" 
+                           class="sidebar-year-link">
+                            ${year.name_ar}
+                        </a>
+                    `;
+                    submenu.appendChild(yearLi);
+                });
+                
+                li.appendChild(submenu);
+                sidebarMenu.appendChild(li);
+            });
+        }
+
+        function toggleYearsMenu(levelId) {
+            const submenu = document.getElementById(`submenu-${levelId}`);
+            const arrow = document.getElementById(`arrow-${levelId}`);
+            
+            submenu.classList.toggle('active');
+            arrow.classList.toggle('rotated');
+        }
+
+        function displayLevels() {
+            const container = document.getElementById('levelsContainer');
+            container.innerHTML = '';
+
+            allLevels.forEach(level => {
+                let levelClass = 'level-primaire';
+                if (level.name_ar.includes('المتوسط')) levelClass = 'level-moyen';
+                else if (level.name_ar.includes('الثانوي')) levelClass = 'level-lycee';
+                else if (level.name_ar.includes('الجامعة')) levelClass = 'level-universite';
+
+                const card = document.createElement('div');
+                card.className = 'level-card';
+                card.id = `level-${level.id}`;
+                card.innerHTML = `
+                    <div class="level-header ${levelClass}">${level.name_ar}</div>
+                    <div class="years-list" id="years-${level.id}"></div>
+                `;
+                container.appendChild(card);
+
+                displayYears(level.id);
+            });
+        }
+
+        function displayYears(levelId) {
+            const yearsContainer = document.getElementById(`years-${levelId}`);
+            const years = allYears[levelId] || [];
+
+            years.forEach(year => {
+                const yearItem = document.createElement('div');
+                yearItem.className = 'year-item';
+                yearItem.textContent = year.name_ar;
+                yearItem.onclick = () => {
+                    window.location.href = `/matiere.html?year_id=${year.id}&year_name=${encodeURIComponent(year.name_ar)}&level_name=${encodeURIComponent(year.level_name)}`;
+                };
+                yearsContainer.appendChild(yearItem);
+            });
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+
+</body>
+</html>

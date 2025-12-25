@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختر المادة - StudyDz</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --white: #ffffff;
+            --text: #111827;
+            --text-light: #6b7280;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        /* Subjects Grid */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(124, 58, 237, 0.15);
+            border: 2px solid var(--primary);
+        }
+
+        .subject-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0.2) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .subject-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .subject-info {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Add Subject Button (for admin) */
+        .add-subject-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .add-subject-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+        }
+
+                /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-logo-badge {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 18px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(124, 58, 237, 0.2);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .sidebar-link:hover::before {
+            background: #7c3aed;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+        }
+
+        .sidebar-link.active::before {
+            background: white;
+        }
+
+        .sidebar-icon {
+            font-size: 18px;
+            margin-left: 12px;
+        }
+
+        .sidebar-submenu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            margin-top: 5px;
+        }
+
+        .sidebar-submenu.active {
+            max-height: 1000px;
+        }
+
+        .sidebar-submenu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-year-link {
+            display: block;
+            padding: 10px 15px 10px 50px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .sidebar-year-link::before {
+            content: '◀';
+            position: absolute;
+            right: 30px;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-year-link:hover {
+            background: rgba(124, 58, 237, 0.15);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .sidebar-year-link:hover::before {
+            transform: translateX(-5px);
+        }
+
+        .sidebar-arrow {
+            transition: transform 0.3s;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .sidebar-arrow.rotated {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-level-link {
+            cursor: pointer;
+        }
+
+        .sidebar-link.primaire:hover { background: rgba(239, 68, 68, 0.2); }
+        .sidebar-link.moyen:hover { background: rgba(16, 185, 129, 0.2); }
+        .sidebar-link.lycee:hover { background: rgba(245, 158, 11, 0.2); }
+        .sidebar-link.universite:hover { background: rgba(6, 182, 212, 0.2); }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            left: 20px;
+            top: 80px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            font-size: 20px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+     <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-text">
+                <span>StudyDz</span>
+                <span class="sidebar-logo-badge">DZ</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li class="sidebar-item">
+                <a href="/" class="sidebar-link">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-home sidebar-icon"></i>
+                        <span>الصفحة الرئيسية</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="window.location.href='/'">
+                <div class="logo-icon">DZ</div>
+                <span>StudyDz</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/">الرئيسية</a>
+            <span class="breadcrumb-separator">←</span>
+            <a href="#" id="levelLink">...</a>
+            <span class="breadcrumb-separator">←</span>
+            <span id="currentYear">...</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <a href="#" id="backBtn" class="back-btn">
+            ← العودة
+        </a>
+
+        <h1 class="page-title" id="pageTitle">اختر المادة الدراسية</h1>
+        <p class="page-subtitle">اختر المادة للوصول إلى الموارد التعليمية</p>
+
+        <div id="subjectsContainer" class="subjects-grid">
+            <div class="loading">جاري تحميل المواد الدراسية...</div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const yearId = urlParams.get('year_id');
+        const yearName = urlParams.get('year_name');
+        const levelName = urlParams.get('level_name');
+
+        // Update breadcrumb
+        if (yearName) {
+            document.getElementById('currentYear').textContent = yearName;
+            document.getElementById('pageTitle').textContent = yearName + ' - المواد';
+        }
+
+        if (levelName) {
+            const levelLink = document.getElementById('levelLink');
+            levelLink.textContent = levelName;
+            levelLink.href = 'javascript:history.back()';
+        }
+
+        document.getElementById('backBtn').href = 'javascript:history.back()';
+
+        // Default subject icons
+        const subjectIcons = {
+            'رياضيات': '📐',
+            'عربية': '📖',
+            'فرنسية': '🇫🇷',
+            'انجليزية': '🇬🇧',
+            'فيزياء': '⚗️',
+            'علوم': '🔬',
+            'تاريخ': '📜',
+            'جغرافيا': '🌍',
+            'تربية': '✨',
+            'اسلامية': '☪️',
+            'default': '📚'
+        };
+
+        function getSubjectIcon(name) {
+            for (let key in subjectIcons) {
+                if (name.includes(key)) {
+                    return subjectIcons[key];
+                }
+            }
+            return subjectIcons.default;
+        }
+
+        // Load subjects
+        async function loadSubjects() {
+            if (!yearId) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/subjects?year_id=${yearId}`);
+                const subjects = await response.json();
+
+                const container = document.getElementById('subjectsContainer');
+
+                if (subjects.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📚</div>
+                            <h3>لا توجد مواد دراسية متاحة حاليا</h3>
+                            <p>سيتم إضافة المحتوى من طرف المسؤول قريبا</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = '';
+
+                subjects.forEach(subject => {
+                    const card = document.createElement('div');
+                    card.className = 'subject-card';
+                    card.onclick = () => goToDocuments(subject.id, subject.name_ar);
+
+                    const icon = subject.icon || getSubjectIcon(subject.name_ar);
+
+                    card.innerHTML = `
+                        <div class="subject-icon">${icon}</div>
+                        <div class="subject-name">${subject.name_ar}</div>
+                        <div class="subject-info">انقر للوصول إلى الموارد</div>
+                    `;
+
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading subjects:', error);
+                document.getElementById('subjectsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>خطأ في تحميل البيانات</h3>
+                        <p>يرجى المحاولة مرة أخرى</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Navigate to documents page
+        function goToDocuments(subjectId, subjectName) {
+            window.location.href = `/documents.html?subject_id=${subjectId}&subject_name=${encodeURIComponent(subjectName)}&year_name=${encodeURIComponent(yearName)}&level_name=${encodeURIComponent(levelName)}`;
+        }
+
+        // Load subjects on page load
+        window.addEventListener('DOMContentLoaded', loadSubjects);
+    </script>
+
+    <script>
+    // Sidebar functionality
+    async function loadSidebar() {
+        try {
+            const levelsResponse = await fetch('http://localhost:8080/api/levels');
+            const levels = await levelsResponse.json();
+
+            const sidebarMenu = document.getElementById('sidebarMenu');
+
+            for (let level of levels) {
+                const yearsResponse = await fetch(`http://localhost:8080/api/years?level_id=${level.id}`);
+                const years = await yearsResponse.json();
+
+                let levelClass = 'primaire';
+                let icon = '📚';
+                
+                if (level.name_ar.includes('المتوسط')) {
+                    levelClass = 'moyen';
+                    icon = '📖';
+                } else if (level.name_ar.includes('الثانوي')) {
+                    levelClass = 'lycee';
+                    icon = '🎓';
+                } else if (level.name_ar.includes('الجامعة')) {
+                    levelClass = 'universite';
+                    icon = '🏛️';
+                }
+
+                const li = document.createElement('li');
+                li.className = 'sidebar-item';
+                
+                const levelLink = document.createElement('a');
+                levelLink.className = `sidebar-link sidebar-level-link ${levelClass}`;
+                levelLink.onclick = (e) => {
+                    e.preventDefault();
+                    toggleYearsMenu(level.id);
+                };
+                levelLink.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <span class="sidebar-icon">${icon}</span>
+                        <span>${level.name_ar}</span>
+                    </div>
+                    <span class="sidebar-arrow" id="arrow-${level.id}">▼</span>
+                `;
+                
+                li.appendChild(levelLink);
+                
+                const submenu = document.createElement('ul');
+                submenu.className = 'sidebar-submenu';
+                submenu.id = `submenu-${level.id}`;
+                
+                years.forEach(year => {
+                    const yearLi = document.createElement('li');
+                    yearLi.innerHTML = `
+                        <a href="/matiere.html?year_id=${year.id}&year_name=${encodeURIComponent(year.name_ar)}&level_name=${encodeURIComponent(year.level_name)}" 
+                           class="sidebar-year-link">
+                            ${year.name_ar}
+                        </a>
+                    `;
+                    submenu.appendChild(yearLi);
+                });
+                
+                li.appendChild(submenu);
+                sidebarMenu.appendChild(li);
+            }
+        } catch (error) {
+            console.error('Error loading sidebar:', error);
+        }
+    }
+
+    function toggleYearsMenu(levelId) {
+        const submenu = document.getElementById(`submenu-${levelId}`);
+        const arrow = document.getElementById(`arrow-${levelId}`);
+        
+        submenu.classList.toggle('active');
+        arrow.classList.toggle('rotated');
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    // Load sidebar on page load
+    document.addEventListener('DOMContentLoaded', loadSidebar);
+</script>
+
+</body>
+</html>

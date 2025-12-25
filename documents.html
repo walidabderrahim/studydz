@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموارد التعليمية - StudyDz</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+            --white: #ffffff;
+            --text: #111827;
+            --text-light: #6b7280;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 12px 24px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .category-tab:hover {
+            border-color: var(--primary);
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* Documents List */
+        .documents-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .document-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .document-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .document-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .document-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .document-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .document-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tabs {
+                overflow-x: auto;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="window.location.href='/'">
+                <div class="logo-icon">DZ</div>
+                <span>StudyDz</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/">الرئيسية</a>
+            <span class="breadcrumb-separator">←</span>
+            <a href="#" id="levelLink">...</a>
+            <span class="breadcrumb-separator">←</span>
+            <a href="#" id="yearLink">...</a>
+            <span class="breadcrumb-separator">←</span>
+            <span id="currentSubject">...</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <a href="#" id="backBtn" class="back-btn">
+            ← العودة
+        </a>
+
+        <h1 class="page-title" id="pageTitle">الموارد التعليمية</h1>
+        <p class="page-subtitle">اختر نوع المورد التعليمي</p>
+
+        <!-- Category Tabs -->
+        <div id="categoryTabs" class="category-tabs">
+            <div class="loading">جاري تحميل الأقسام...</div>
+        </div>
+
+        <!-- Documents Container -->
+        <div id="documentsContainer">
+            <div class="loading">جاري تحميل الملفات...</div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const subjectId = urlParams.get('subject_id');
+        const subjectName = urlParams.get('subject_name');
+        const yearName = urlParams.get('year_name');
+        const levelName = urlParams.get('level_name');
+
+        // Update breadcrumb
+        if (subjectName) {
+            document.getElementById('currentSubject').textContent = subjectName;
+            document.getElementById('pageTitle').textContent = subjectName;
+        }
+
+        if (yearName) {
+            document.getElementById('yearLink').textContent = yearName;
+            document.getElementById('yearLink').href = 'javascript:history.back()';
+        }
+
+        if (levelName) {
+            const levelLink = document.getElementById('levelLink');
+            levelLink.textContent = levelName;
+        }
+
+        document.getElementById('backBtn').href = 'javascript:history.back()';
+
+        let allDocuments = [];
+        let allCategories = [];
+        let selectedCategory = 'all';
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const response = await fetch('http://localhost:8080/api/categories');
+                allCategories = await response.json();
+
+                const tabsContainer = document.getElementById('categoryTabs');
+                tabsContainer.innerHTML = '';
+
+                // Add "All" tab
+                const allTab = document.createElement('div');
+                allTab.className = 'category-tab active';
+                allTab.textContent = 'جميع الملفات';
+                allTab.onclick = () => filterByCategory('all');
+                tabsContainer.appendChild(allTab);
+
+                // Add category tabs
+                allCategories.forEach(cat => {
+                    const tab = document.createElement('div');
+                    tab.className = 'category-tab';
+                    tab.textContent = cat.name_ar;
+                    tab.dataset.categoryId = cat.id;
+                    tab.onclick = () => filterByCategory(cat.id);
+                    tabsContainer.appendChild(tab);
+                });
+
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Load documents
+        async function loadDocuments() {
+            if (!subjectId) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/documents?subject_id=${subjectId}`);
+                allDocuments = await response.json();
+
+                displayDocuments();
+
+            } catch (error) {
+                console.error('Error loading documents:', error);
+                document.getElementById('documentsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>خطأ في تحميل البيانات</h3>
+                        <p>يرجى المحاولة مرة أخرى</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Filter by category
+        function filterByCategory(categoryId) {
+            selectedCategory = categoryId;
+
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            displayDocuments();
+        }
+
+        // Display documents
+        function displayDocuments() {
+            const container = document.getElementById('documentsContainer');
+
+            // Filter documents
+            let filteredDocs = allDocuments;
+            if (selectedCategory !== 'all') {
+                filteredDocs = allDocuments.filter(doc => doc.category_id == selectedCategory);
+            }
+
+            if (filteredDocs.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📄</div>
+                        <h3>لا توجد ملفات متاحة حاليا</h3>
+                        <p>سيتم إضافة الملفات من طرف المسؤول قريبا</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group by category
+            const groupedDocs = {};
+            filteredDocs.forEach(doc => {
+                if (!groupedDocs[doc.category_name]) {
+                    groupedDocs[doc.category_name] = [];
+                }
+                groupedDocs[doc.category_name].push(doc);
+            });
+
+            // Display grouped documents
+            container.innerHTML = '';
+            
+            for (let categoryName in groupedDocs) {
+                const section = document.createElement('div');
+                section.className = 'documents-section';
+
+                const categoryIcon = getCategoryIcon(categoryName);
+                
+                section.innerHTML = `
+                    <h2 class="section-title">
+                        <span class="section-icon" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white;">
+                            ${categoryIcon}
+                        </span>
+                        ${categoryName}
+                    </h2>
+                    <div class="documents-grid" id="category-${categoryName}"></div>
+                `;
+
+                container.appendChild(section);
+
+                const grid = document.getElementById(`category-${categoryName}`);
+                
+                groupedDocs[categoryName].forEach(doc => {
+                    const card = createDocumentCard(doc);
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Create document card
+        function createDocumentCard(doc) {
+            const card = document.createElement('div');
+            card.className = 'document-card';
+
+            const fileSize = formatFileSize(doc.file_size);
+            const date = new Date(doc.created_at).toLocaleDateString('ar-DZ');
+
+            card.innerHTML = `
+                <div class="document-header">
+                    <div class="document-icon">📄</div>
+                    <div class="document-info">
+                        <div class="document-title">${doc.title}</div>
+                        <div class="document-meta">
+                            <span>📥 ${doc.downloads} تحميل</span>
+                            <span>📦 ${fileSize}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="document-actions">
+                    <button class="btn btn-primary" onclick="viewDocument(${doc.id})">
+                        👁️ معاينة
+                    </button>
+                    <button class="btn btn-success" onclick="downloadDocument(${doc.id})">
+                        ⬇️ تحميل
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Get category icon
+        function getCategoryIcon(categoryName) {
+            const icons = {
+                'دروس': '📚',
+                'اختبارات': '📝',
+                'تمارين': '✏️',
+                'فروض': '📋',
+                'ملخصات': '📄'
+            };
+            return icons[categoryName] || '📁';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // View document
+        function viewDocument(docId) {
+            window.open(`http://localhost:8080/api/download/${docId}`, '_blank');
+        }
+
+        // Download document
+        function downloadDocument(docId) {
+            window.location.href = `http://localhost:8080/api/download/${docId}`;
+        }
+
+        // Load on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadDocuments();
+        });
+    </script>
+</body>
+</html>
